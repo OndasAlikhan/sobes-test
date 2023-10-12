@@ -1,17 +1,34 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import { LoginPage } from "@/modules/login/pages/LoginPage";
-import { authDataStore } from "@/common/store/authStore";
-import { Layout } from "./common/components/Layout";
+import { authDataStore } from "@/modules/login/store/auth.store";
+import { Layout } from "@/common/layouts/Layout";
+import { MainPage } from "./modules/main/pages/MainPage";
+import { MainLayout } from "./common/layouts/MainLayout";
+import { ErrorBoundary } from "./common/pages/ErrorBoundary";
+import { RolesPage, rolesPageLoader } from "./modules/roles/pages/RolesPage";
+import { AdminUsersPage } from "./modules/admin-users/pages/AdminUsersPage";
 
-const publicPages = ["/login"];
+const authorizationPages = ["/login"];
+
+const checkIsAuthorizedStore = () => {
+  if (!authDataStore.isAuthorized && localStorage.getItem("access_token")) {
+    authDataStore.setIsAuthorized(true);
+  }
+};
 
 // executes at every route
 const authorizationGuard = (request: Request) => {
   const url = new URL(request.url);
-  // public pages dont need authorization
-  if (publicPages.includes(url.pathname)) {
+
+  // authorization pages
+  if (authorizationPages.includes(url.pathname)) {
+    if (authDataStore.isAuthorized) {
+      return redirect("/");
+    }
     return null;
   }
+
+  // other pages
   // if not authorized redirect to login
   if (!authDataStore.isAuthorized) {
     return redirect("/login");
@@ -24,14 +41,33 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    loader: ({ request }) => authorizationGuard(request),
+    loader: ({ request }) => {
+      checkIsAuthorizedStore();
+      return authorizationGuard(request);
+    },
+    errorElement: <ErrorBoundary />,
     children: [
       {
-        path: "/login",
-        element: <LoginPage />,
+        // index: true,
+        element: <MainLayout />,
+        children: [
+          {
+            index: true,
+            element: <MainPage />,
+          },
+          {
+            path: "/roles",
+            loader: rolesPageLoader,
+            element: <RolesPage />,
+          },
+          {
+            path: "/admin-users",
+            element: <AdminUsersPage />,
+          },
+        ],
       },
       {
-        path: "/login2",
+        path: "/login",
         element: <LoginPage />,
       },
     ],

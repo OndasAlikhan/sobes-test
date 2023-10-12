@@ -2,19 +2,16 @@ import { types } from "mobx-state-tree";
 
 const AuthData = types
   .model("AuthData", {
-    accessToken: "",
+    isAuthorized: false,
   })
   .actions((authData) => ({
-    setAccessToken(token: string) {
-      authData.accessToken = token;
-    },
-    removeAccessToken() {
-      authData.accessToken = "";
+    setIsAuthorized(isAuthorized: boolean) {
+      authData.isAuthorized = isAuthorized;
     },
   }))
   .views((self) => ({
-    get isAuthorized() {
-      return !!self.accessToken;
+    get isAuthorizedGetter() {
+      return self.isAuthorized;
     },
   }));
 

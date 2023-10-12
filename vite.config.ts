@@ -10,4 +10,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://arm.lombard-b.kz",
+        changeOrigin: true,
+        // secure: false,
+      },
+    },
+  },
 });
