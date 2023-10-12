@@ -2,8 +2,8 @@ import { AxiosResponse } from "axios";
 import { httpClient } from "../../../common/utils/httpClient";
 
 export type LoginResponse = {
-  access: string;
-  refresh: string;
+  access_token: string;
+  refresh_token: string;
 };
 
 const PATHS = {

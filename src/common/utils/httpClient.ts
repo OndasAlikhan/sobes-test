@@ -62,7 +62,7 @@ const handleError = async (error: AxiosError) => {
           const originalConfig = error.config as AxiosRequestConfig & {
             _retry?: boolean;
           };
-          const refresh = localStorage.getItem("refresh");
+          const refresh = localStorage.getItem("refresh_token");
           if (error.config && error.response && refresh) {
             if (!originalConfig._retry) {
               originalConfig._retry = true;
@@ -72,10 +72,14 @@ const handleError = async (error: AxiosError) => {
                   refresh,
                 },
               );
-              localStorage.setItem("access", res.data.access);
-              originalConfig.headers.Authorization = `Bearer ${localStorage.getItem(
-                "access",
-              )}`;
+              localStorage.setItem("access_token", res.data.access);
+
+              if (originalConfig.headers) {
+                originalConfig.headers.Authorization = `Bearer ${localStorage.getItem(
+                  "access_token",
+                )}`;
+              }
+
               return axios(originalConfig);
             }
           }
