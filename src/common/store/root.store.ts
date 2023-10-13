@@ -1,11 +1,14 @@
-import { Roles } from "@/modules/roles/store/roles.store";
-import { Instance, types } from "mobx-state-tree";
+import { AuthDataModel } from "@/modules/login/store/auth.store";
+import { RolesModel } from "@/modules/roles/store/roles.store";
+import { Instance, types, onSnapshot } from "mobx-state-tree";
+import { createContext, useContext } from "react";
 
 const RootModel = types.model("Root", {
-  roles: Roles,
+  roles: RolesModel,
+  authData: AuthDataModel,
 });
 
-const rootStore = RootModel.create({
+export const rootStore = RootModel.create({
   roles: {
     data: {
       limit: 0,
@@ -15,8 +18,26 @@ const rootStore = RootModel.create({
       docs: [],
     },
   },
+  authData: {
+    isAuthorized: false,
+    me: null,
+  },
 });
 
-export { rootStore };
+export const RootStoreContext = createContext<RootModelType>(
+  {} as RootModelType,
+);
 
+onSnapshot(rootStore, (value) => {
+  console.log("onSnapshot value", value.authData);
+});
+
+export function useMst() {
+  const store = useContext(RootStoreContext);
+  if (store === null) {
+    throw new Error("Store cannot be null, please add a context provider");
+  }
+  return store;
+}
+export const Provider = RootStoreContext.Provider;
 export type RootModelType = Instance<typeof RootModel>;

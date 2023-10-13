@@ -5,8 +5,8 @@ import { Button, Card, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 
 type FieldType = {
-  username?: string;
-  password?: string;
+  username: string;
+  password: string;
 };
 
 export const LoginPage = () => {

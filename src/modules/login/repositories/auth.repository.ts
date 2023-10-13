@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import { httpClient } from "../../../common/utils/httpClient";
+import { MeModelType } from "../store/auth.store";
 
 export type LoginResponse = {
   access_token: string;
@@ -8,6 +9,7 @@ export type LoginResponse = {
 
 const PATHS = {
   LOGIN: "/api/admin-api/auth/login",
+  ME: "/api/admin-api/me",
 };
 
 export default {
@@ -15,7 +17,9 @@ export default {
     username: string;
     password: string;
   }): Promise<AxiosResponse<LoginResponse>> {
-    const url = PATHS.LOGIN;
-    return httpClient.post(url, params);
+    return httpClient.post(PATHS.LOGIN, params);
+  },
+  me(): Promise<AxiosResponse<MeModelType>> {
+    return httpClient.get(PATHS.ME);
   },
 };

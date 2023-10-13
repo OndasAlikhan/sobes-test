@@ -1,10 +1,10 @@
 import { Instance, types } from "mobx-state-tree";
 
-export type RoleType = Instance<typeof Role>;
-export type RolesDataType = Instance<typeof RolesData>;
-export type RolesType = Instance<typeof Roles>;
+export type RoleModelType = Instance<typeof RoleModel>;
+export type RolesDataModelType = Instance<typeof RolesDataModel>;
+export type RolesModelType = Instance<typeof RolesModel>;
 
-const Role = types.model({
+export const RoleModel = types.model("RoleModel", {
   id: types.string,
   createdAt: types.string,
   updatedAt: types.string,
@@ -13,20 +13,25 @@ const Role = types.model({
   permissions: types.array(types.string),
 });
 
-const RolesData = types.model({
+const RolesDataModel = types.model("RolesDataModel", {
   limit: types.number,
   page: types.number,
   totalDocs: types.number,
   totalPages: types.number,
-  docs: types.array(Role),
+  docs: types.array(RoleModel),
 });
 
-export const Roles = types
-  .model({
-    data: RolesData,
+export const RolesModel = types
+  .model("RolesModel", {
+    data: RolesDataModel,
   })
   .actions((self) => ({
-    setRoles(rolesData: RolesDataType) {
+    setRoles(rolesData: RolesDataModelType) {
       self.data = rolesData;
+    },
+  }))
+  .views((self) => ({
+    get getRoles() {
+      return self.data;
     },
   }));

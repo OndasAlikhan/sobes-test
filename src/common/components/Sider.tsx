@@ -10,12 +10,17 @@ export const Sider = () => {
         </Link>
       </div>
       <div className="flex flex-col p-8 text-white">
-        <Button type="link" className="text-white">
-          <Link to="/roles">Roles</Link>
-        </Button>
-        <Button type="link" className="text-white">
-          <Link to="/admin-users">Admin Users</Link>
-        </Button>
+        <Link to="/roles">
+          <Button type="link" className="text-white">
+            Roles
+          </Button>
+        </Link>
+
+        <Link to="/admin-users">
+          <Button type="link" className="text-white">
+            Admin Users
+          </Button>
+        </Link>
       </div>
     </>
   );
