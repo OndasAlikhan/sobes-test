@@ -71,8 +71,8 @@ export const router = createBrowserRouter([
     loader: async ({ request }) => {
       checkIsAuthorizedStore();
       await checkMe();
-      // const checkPermissionResult = await checkPermission(request);
-      // if (checkPermissionResult) return checkPermissionResult;
+      const checkPermissionResult = await checkPermission(request);
+      if (checkPermissionResult) return checkPermissionResult;
       return authorizationGuard(request);
     },
     errorElement: <ErrorBoundary />,

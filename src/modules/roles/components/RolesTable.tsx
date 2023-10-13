@@ -1,6 +1,6 @@
 import { Button, Table, Modal } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { RoleType } from "../store/roles.store";
+import { RoleModelType } from "../store/roles.store";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -9,23 +9,26 @@ import {
 import { RoleFormModal } from "./RoleFormModal";
 import { useState } from "react";
 import RolesService from "../services/roles.service";
+import toast from "react-hot-toast";
 
 type Props = {
-  data: RoleType[];
+  data: RoleModelType[];
 };
 
 const { confirm } = Modal;
 
 export const RolesTable = ({ data }: Props) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [editModalData, setEditModalData] = useState<RoleType | null>(null);
+  const [editModalData, setEditModalData] = useState<RoleModelType | null>(
+    null,
+  );
 
-  const onEditClick = (data: RoleType) => {
+  const onEditClick = (data: RoleModelType) => {
     setEditModalOpen(true);
     setEditModalData(data);
   };
 
-  const onDeleteClick = (data: RoleType) => {
+  const onDeleteClick = (data: RoleModelType) => {
     confirm({
       title: `Confirm deletion of ${data.name}`,
       icon: <ExclamationCircleFilled />,
@@ -35,7 +38,7 @@ export const RolesTable = ({ data }: Props) => {
       cancelText: "No",
       async onOk() {
         await RolesService.deleteRole({ id: data.id });
-        console.log("toast: OK");
+        toast.success("Succesfully deleted");
       },
       onCancel() {
         console.log("Cancel");
@@ -48,7 +51,7 @@ export const RolesTable = ({ data }: Props) => {
     setEditModalData(null);
   };
 
-  const columns: ColumnsType<RoleType> = [
+  const columns: ColumnsType<RoleModelType> = [
     {
       title: "ID",
       dataIndex: "id",

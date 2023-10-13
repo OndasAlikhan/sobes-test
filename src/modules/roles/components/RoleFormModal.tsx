@@ -4,6 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import RolesService from "../services/roles.service";
 import { RoleModelType } from "../store/roles.store";
+import toast from "react-hot-toast";
 
 type RoleFormModalProps = {
   open: boolean;
@@ -58,9 +59,10 @@ export const RoleFormModal = ({
   console.log("initialValues", initialValues);
   const createRole = async (values: PostRoleParams) => {
     const { result, err } = await RolesService.postRole(values);
-    if (err) {
-      console.log("error on FormSubmit", err);
-    }
+
+    if (err) toast.error("Couldn't create role");
+    toast.success("Role created");
+
     setSubmitLoading(false);
     onModalClose();
     form.resetFields();
@@ -79,9 +81,8 @@ export const RoleFormModal = ({
       id: editData?.id,
     });
 
-    if (err) {
-      console.log("error on FormSubmit", err);
-    }
+    if (err) toast.error("Couldn't change role");
+    toast.success("Role changed");
 
     setSubmitLoading(false);
     onModalClose();
