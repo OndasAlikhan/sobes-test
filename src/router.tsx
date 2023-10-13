@@ -15,7 +15,7 @@ const authorizationPages = ["/login"];
 
 const routeToPermissionMap: Record<string, string> = {
   "/roles": "GET_ROLES",
-  "/admin-users": "GET_ADMIN_USE",
+  "/admin-users": "GET_ADMIN_USER",
 };
 
 const checkIsAuthorizedStore = () => {
