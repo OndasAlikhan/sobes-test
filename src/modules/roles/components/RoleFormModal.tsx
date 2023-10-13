@@ -35,11 +35,6 @@ export const RoleFormModal = ({
   onModalClose,
 }: RoleFormModalProps) => {
   const [submitLoading, setSubmitLoading] = useState(false);
-  // const [initialValues, setInitialValues] = useState({
-  //   name: "",
-  //   description: "",
-  //   permissions: [""],
-  // });
   const [form] = Form.useForm();
 
   const initialValues = {
@@ -56,11 +51,14 @@ export const RoleFormModal = ({
     }
   }, [editData, form]);
 
-  console.log("initialValues", initialValues);
   const createRole = async (values: PostRoleParams) => {
     const { result, err } = await RolesService.postRole(values);
 
-    if (err) toast.error("Couldn't create role");
+    if (err) {
+      toast.error(`Couldn't create role. ${err.join(" ")}`);
+      setSubmitLoading(false);
+      return;
+    }
     toast.success("Role created");
 
     setSubmitLoading(false);
@@ -69,9 +67,7 @@ export const RoleFormModal = ({
   };
 
   const updateRole = async (values: PostRoleParams) => {
-    console.log("update values ", values);
     if (!editData) {
-      console.log("toast: no edit data");
       setSubmitLoading(false);
       return;
     }
@@ -81,8 +77,12 @@ export const RoleFormModal = ({
       id: editData?.id,
     });
 
-    if (err) toast.error("Couldn't change role");
-    toast.success("Role changed");
+    if (err) {
+      toast.error(`Couldn't update role. ${err.join(" ")}`);
+      setSubmitLoading(false);
+      return;
+    }
+    toast.success("Role updated");
 
     setSubmitLoading(false);
     onModalClose();

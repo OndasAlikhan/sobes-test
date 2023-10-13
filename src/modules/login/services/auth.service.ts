@@ -4,7 +4,7 @@ import {
   saveDataToLocalStorage,
 } from "../../../common/utils/authUtils";
 
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { rootStore } from "@/common/store/root.store";
 
 export type LoginServiceParams = {
@@ -23,7 +23,11 @@ export default {
       return { result, err: null };
     } catch (err) {
       console.log("auth.service login() error");
-      return { result: null, err: err as Error };
+      const error = err as AxiosError<ErrorData>;
+      return {
+        result: null,
+        err: error.response?.data.message || ["Unkown error"],
+      };
     }
   },
   logout() {
@@ -32,17 +36,20 @@ export default {
       clearLocalStorage();
       window.location.href = "/login";
     } catch (err) {
-      return { result: null, err: err as Error };
+      return { result: null, err };
     }
   },
   async me() {
     try {
-      console.log("calling me");
       const result = await AuthRepository.me();
       rootStore.authData.setMe(result.data);
       return { result, err: null };
     } catch (err) {
-      return { result: null, err: err as Error };
+      const error = err as AxiosError<ErrorData>;
+      return {
+        result: null,
+        err: error.response?.data.message || ["Unkown error"],
+      };
     }
   },
 };

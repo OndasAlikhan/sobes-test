@@ -2,6 +2,7 @@ import authService, {
   LoginServiceParams,
 } from "@/modules/login/services/auth.service";
 import { Button, Card, Form, Input } from "antd";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 type FieldType = {
@@ -17,6 +18,7 @@ export const LoginPage = () => {
 
     // handle error
     if (err) {
+      toast.error(err.join(" "));
       return;
     }
     navigate("/");
@@ -24,6 +26,7 @@ export const LoginPage = () => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
+    toast.error(errorInfo);
   };
 
   return (

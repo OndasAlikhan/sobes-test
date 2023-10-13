@@ -38,7 +38,6 @@ const checkPermission = async (request: Request) => {
     const permitted = rootStore.authData.me.role.permissions.includes(
       routeToPermissionMap[url.pathname],
     );
-    console.log("request", request);
     return permitted ? null : redirect("/");
   }
 };

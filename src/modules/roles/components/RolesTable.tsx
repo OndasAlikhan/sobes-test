@@ -40,9 +40,7 @@ export const RolesTable = ({ data }: Props) => {
         await RolesService.deleteRole({ id: data.id });
         toast.success("Succesfully deleted");
       },
-      onCancel() {
-        console.log("Cancel");
-      },
+      onCancel() {},
     });
   };
 

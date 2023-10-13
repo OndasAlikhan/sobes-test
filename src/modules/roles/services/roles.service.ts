@@ -7,6 +7,7 @@ import RolesRepository, {
 } from "../repositories/roles.repository";
 import { rootStore } from "@/common/store/root.store";
 import { RolesDataModelType } from "../store/roles.store";
+import { AxiosError } from "axios";
 
 export default {
   async fetchRoles(): Promise<ResultWrapper<RolesResponse>> {
@@ -16,7 +17,11 @@ export default {
       return { result: result.data, err: null };
     } catch (err) {
       console.log("roles.service fetchRoles() error", err);
-      return { result: null, err: err as Error };
+      const error = err as AxiosError<ErrorData>;
+      return {
+        result: null,
+        err: error.response?.data.message || ["Unkown error"],
+      };
     }
   },
   async postRole(params: PostRoleParams): Promise<ResultWrapper<RoleResponse>> {
@@ -26,7 +31,11 @@ export default {
       return { result: result.data, err: null };
     } catch (err) {
       console.log("roles.service postRole() error", err);
-      return { result: null, err: err as Error };
+      const error = err as AxiosError<ErrorData>;
+      return {
+        result: null,
+        err: error.response?.data.message || ["Unkown error"],
+      };
     }
   },
   async putRole(params: PutRoleParams): Promise<ResultWrapper<RoleResponse>> {
@@ -36,7 +45,11 @@ export default {
       return { result: result.data, err: null };
     } catch (err) {
       console.log("roles.service postRole() error", err);
-      return { result: null, err: err as Error };
+      const error = err as AxiosError<ErrorData>;
+      return {
+        result: null,
+        err: error.response?.data.message || ["Unkown error"],
+      };
     }
   },
   async deleteRole(params: DeleteRoleParams) {
@@ -46,7 +59,11 @@ export default {
       return { result: result.data, err: null };
     } catch (err) {
       console.log("roles.service postRole() error", err);
-      return { result: null, err: err as Error };
+      const error = err as AxiosError<ErrorData>;
+      return {
+        result: null,
+        err: error.response?.data.message || ["Unkown error"],
+      };
     }
   },
 };

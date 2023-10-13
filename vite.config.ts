@@ -15,7 +15,6 @@ export default defineConfig({
       "/api": {
         target: "https://arm.lombard-b.kz",
         changeOrigin: true,
-        // secure: false,
       },
     },
   },

@@ -28,10 +28,6 @@ export const RootStoreContext = createContext<RootModelType>(
   {} as RootModelType,
 );
 
-onSnapshot(rootStore, (value) => {
-  console.log("onSnapshot value", value.authData);
-});
-
 export function useMst() {
   const store = useContext(RootStoreContext);
   if (store === null) {
