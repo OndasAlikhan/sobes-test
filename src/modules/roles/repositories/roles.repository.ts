@@ -4,9 +4,7 @@ import { RoleModelType, RolesDataModelType } from "../store/roles.store";
 
 export type RoleResponse = RoleModelType;
 export type RolesResponse = RolesDataModelType;
-export type FetchRoleParams = {
-  limit: number;
-};
+export type FetchRolesParams = BasePaginationParams;
 export type PostRoleParams = {
   name: string;
   description: string;
@@ -24,7 +22,7 @@ const PATHS = {
 };
 
 export default {
-  fetchRoles(params: FetchRoleParams): Promise<AxiosResponse<RolesResponse>> {
+  fetchRoles(params: FetchRolesParams): Promise<AxiosResponse<RolesResponse>> {
     return httpClient.get(PATHS.ROLES, { params });
   },
   postRole(params: PostRoleParams): Promise<AxiosResponse<RoleResponse>> {

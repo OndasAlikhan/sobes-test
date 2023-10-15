@@ -1,4 +1,5 @@
 import RolesRepository, {
+  FetchRolesParams,
   RolesResponse,
   PostRoleParams,
   RoleResponse,
@@ -10,9 +11,15 @@ import { RolesDataModelType } from "../store/roles.store";
 import { AxiosError } from "axios";
 
 export default {
-  async fetchRoles(): Promise<ResultWrapper<RolesResponse>> {
+  async fetchRoles(
+    params: FetchRolesParams = {},
+  ): Promise<ResultWrapper<RolesResponse>> {
     try {
-      const result = await RolesRepository.fetchRoles({ limit: 100 });
+      const result = await RolesRepository.fetchRoles({
+        page: 1,
+        limit: 10,
+        ...params,
+      });
       rootStore.roles.setRoles(result.data as RolesDataModelType);
       return { result: result.data, err: null };
     } catch (err) {
@@ -27,7 +34,12 @@ export default {
   async postRole(params: PostRoleParams): Promise<ResultWrapper<RoleResponse>> {
     try {
       const result = await RolesRepository.postRole(params);
-      await this.fetchRoles();
+
+      const fetchParams = {
+        page: rootStore.roles.data.page,
+      };
+      await this.fetchRoles(fetchParams);
+
       return { result: result.data, err: null };
     } catch (err) {
       console.log("roles.service postRole() error", err);
@@ -41,7 +53,12 @@ export default {
   async putRole(params: PutRoleParams): Promise<ResultWrapper<RoleResponse>> {
     try {
       const result = await RolesRepository.putRole(params);
-      await this.fetchRoles();
+
+      const fetchParams = {
+        page: rootStore.roles.data.page,
+      };
+      await this.fetchRoles(fetchParams);
+
       return { result: result.data, err: null };
     } catch (err) {
       console.log("roles.service postRole() error", err);
@@ -55,7 +72,12 @@ export default {
   async deleteRole(params: DeleteRoleParams) {
     try {
       const result = await RolesRepository.deleteRole(params);
-      await this.fetchRoles();
+
+      const fetchParams = {
+        page: rootStore.roles.data.page,
+      };
+      await this.fetchRoles(fetchParams);
+
       return { result: result.data, err: null };
     } catch (err) {
       console.log("roles.service postRole() error", err);

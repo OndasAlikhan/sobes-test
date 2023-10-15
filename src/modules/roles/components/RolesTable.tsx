@@ -13,11 +13,14 @@ import toast from "react-hot-toast";
 
 type Props = {
   data: RoleModelType[];
+  limit: number;
+  page: number;
+  totalDocs: number;
 };
 
 const { confirm } = Modal;
 
-export const RolesTable = ({ data }: Props) => {
+export const RolesTable = ({ data, limit, page, totalDocs }: Props) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editModalData, setEditModalData] = useState<RoleModelType | null>(
     null,
@@ -42,6 +45,10 @@ export const RolesTable = ({ data }: Props) => {
       },
       onCancel() {},
     });
+  };
+
+  const handlePageChange = (page: number) => {
+    RolesService.fetchRoles({ page });
   };
 
   const onModalClose = () => {
@@ -108,6 +115,12 @@ export const RolesTable = ({ data }: Props) => {
         columns={columns}
         dataSource={data}
         rowKey="id"
+        pagination={{
+          pageSize: limit,
+          current: page,
+          total: totalDocs,
+          onChange: handlePageChange,
+        }}
       />
       <RoleFormModal
         open={editModalOpen}

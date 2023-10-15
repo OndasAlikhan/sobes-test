@@ -1,3 +1,4 @@
+import { BaseListModel } from "@/common/store/base-list.store";
 import { Instance, types } from "mobx-state-tree";
 
 export type RoleModelType = Instance<typeof RoleModel>;
@@ -13,13 +14,7 @@ export const RoleModel = types.model("RoleModel", {
   permissions: types.array(types.string),
 });
 
-const RolesDataModel = types.model("RolesDataModel", {
-  limit: types.number,
-  page: types.number,
-  totalDocs: types.number,
-  totalPages: types.number,
-  docs: types.array(RoleModel),
-});
+const RolesDataModel = BaseListModel(RoleModel).named("RolesDataModel");
 
 export const RolesModel = types
   .model("RolesModel", {
@@ -28,10 +23,5 @@ export const RolesModel = types
   .actions((self) => ({
     setRoles(rolesData: RolesDataModelType) {
       self.data = rolesData;
-    },
-  }))
-  .views((self) => ({
-    get getRoles() {
-      return self.data;
     },
   }));

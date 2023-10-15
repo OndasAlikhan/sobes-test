@@ -8,3 +8,10 @@ type ErrorData = {
   message: string[];
   statusCode: number;
 };
+
+type BasePaginationParams = {
+  page?: number;
+  limit?: number;
+  searchText?: string;
+  sort?: string;
+};
