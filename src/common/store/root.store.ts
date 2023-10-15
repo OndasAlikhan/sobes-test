@@ -1,6 +1,6 @@
 import { AuthDataModel } from "@/modules/login/store/auth.store";
 import { RolesModel } from "@/modules/roles/store/roles.store";
-import { Instance, types, onSnapshot } from "mobx-state-tree";
+import { Instance, types } from "mobx-state-tree";
 import { createContext, useContext } from "react";
 
 const RootModel = types.model("Root", {
@@ -19,7 +19,6 @@ export const rootStore = RootModel.create({
     },
   },
   authData: {
-    isAuthorized: false,
     me: null,
   },
 });

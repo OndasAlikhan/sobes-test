@@ -10,5 +10,5 @@ export const saveDataToLocalStorage = (data: Record<string, string>): void => {
 
 export const clearLocalStorage = () => {
   localStorage.removeItem("access_token");
-  localStorage.removeItem("refresh_refresh");
+  localStorage.removeItem("refresh_token");
 };

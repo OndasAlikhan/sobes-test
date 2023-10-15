@@ -1,7 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { clearLocalStorage } from "./authUtils";
 
-const TIMEOUT = 0;
 const defaultHeaders = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",

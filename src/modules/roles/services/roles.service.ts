@@ -20,7 +20,7 @@ export default {
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,
-        err: error.response?.data.message || ["Unkown error"],
+        err: error.response?.data.message || ["Unknown error"],
       };
     }
   },
@@ -34,7 +34,7 @@ export default {
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,
-        err: error.response?.data.message || ["Unkown error"],
+        err: error.response?.data.message || ["Unknown error"],
       };
     }
   },
@@ -48,7 +48,7 @@ export default {
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,
-        err: error.response?.data.message || ["Unkown error"],
+        err: error.response?.data.message || ["Unknown error"],
       };
     }
   },
@@ -62,7 +62,7 @@ export default {
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,
-        err: error.response?.data.message || ["Unkown error"],
+        err: error.response?.data.message || ["Unknown error"],
       };
     }
   },

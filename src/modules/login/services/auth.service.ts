@@ -19,20 +19,20 @@ export default {
     try {
       const result = await AuthRepository.login(params);
       saveDataToLocalStorage(result.data);
-      rootStore.authData.setIsAuthorized(true);
+      await this.me();
       return { result, err: null };
     } catch (err) {
       console.log("auth.service login() error");
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,
-        err: error.response?.data.message || ["Unkown error"],
+        err: error.response?.data.message || ["Unknown error"],
       };
     }
   },
   logout() {
     try {
-      rootStore.authData.setIsAuthorized(false);
+      rootStore.authData.setMe(null);
       clearLocalStorage();
       window.location.href = "/login";
     } catch (err) {
@@ -48,7 +48,7 @@ export default {
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,
-        err: error.response?.data.message || ["Unkown error"],
+        err: error.response?.data.message || ["Unknown error"],
       };
     }
   },

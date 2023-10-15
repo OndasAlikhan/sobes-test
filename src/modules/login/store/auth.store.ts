@@ -18,14 +18,10 @@ export const MeModel = types.model("MeModel", {
 
 export const AuthDataModel = types
   .model("AuthData", {
-    isAuthorized: false,
     me: types.maybeNull(MeModel),
   })
   .actions((authData) => ({
-    setIsAuthorized(isAuthorized: boolean) {
-      authData.isAuthorized = isAuthorized;
-    },
-    setMe(me: MeModelType) {
+    setMe(me: MeModelType | null) {
       authData.me = me;
     },
   }))
