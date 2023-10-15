@@ -2,6 +2,17 @@ import { Button, Typography } from "antd";
 import { Link } from "react-router-dom";
 
 export const Sider = () => {
+  const linkList = [
+    {
+      path: "/roles",
+      label: "Roles",
+    },
+    {
+      path: "/admin-users",
+      label: "Admin Users",
+    },
+  ];
+
   return (
     <>
       <div className="h-[64px] flex justify-center items-center">
@@ -10,17 +21,13 @@ export const Sider = () => {
         </Link>
       </div>
       <div className="flex flex-col p-8 text-white">
-        <Link to="/roles">
-          <Button type="link" className="text-white">
-            Roles
-          </Button>
-        </Link>
-
-        <Link to="/admin-users">
-          <Button type="link" className="text-white">
-            Admin Users
-          </Button>
-        </Link>
+        {linkList.map((item) => (
+          <Link to={item.path} key={item.label}>
+            <Button type="link" className="text-white">
+              {item.label}
+            </Button>
+          </Link>
+        ))}
       </div>
     </>
   );

@@ -3,9 +3,20 @@ import { RolesModel } from "@/modules/roles/store/roles.store";
 import { Instance, types } from "mobx-state-tree";
 import { createContext, useContext } from "react";
 
+const GlobalLoaderModel = types
+  .model("GlobalLoaderModel", {
+    loading: false,
+  })
+  .actions((self) => ({
+    setGlobalLoader(loading: boolean) {
+      self.loading = loading;
+    },
+  }));
+
 const RootModel = types.model("Root", {
   roles: RolesModel,
   authData: AuthDataModel,
+  globalLoader: GlobalLoaderModel,
 });
 
 export const rootStore = RootModel.create({
@@ -20,6 +31,9 @@ export const rootStore = RootModel.create({
   },
   authData: {
     me: null,
+  },
+  globalLoader: {
+    loading: false,
   },
 });
 
