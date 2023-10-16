@@ -6,6 +6,7 @@ import {
 
 import { AxiosError, AxiosResponse } from "axios";
 import { rootStore } from "@/common/store/root.store";
+import PermissionsService from "@/modules/permissions/services/permissions.service";
 
 export type LoginServiceParams = {
   username: string;
@@ -20,6 +21,7 @@ export default {
       const result = await AuthRepository.login(params);
       saveDataToLocalStorage(result.data);
       await this.me();
+      await PermissionsService.fetchPermissions();
       return { result, err: null };
     } catch (err) {
       console.log("auth.service login() error");

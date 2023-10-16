@@ -12,6 +12,7 @@ import { rootStore } from "./common/store/root.store";
 import AuthService from "./modules/login/services/auth.service";
 import { clearLocalStorage } from "./common/utils/authUtils";
 import toast from "react-hot-toast";
+import PermissionsService from "./modules/permissions/services/permissions.service";
 
 const authorizationPages = ["/login"];
 
@@ -63,6 +64,9 @@ const authorizationGuard = async (request: Request) => {
       clearLocalStorage();
       return redirect("/login");
     }
+
+    // fetch dictionaries
+    await PermissionsService.fetchPermissions();
 
     // we have a token and it's valid - do nothing
     return null;

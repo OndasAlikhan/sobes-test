@@ -1,5 +1,6 @@
 import { AuthDataModel } from "@/modules/login/store/auth.store";
 import { RolesModel } from "@/modules/roles/store/roles.store";
+import { PermissionsModel } from "@/modules/permissions/store/permissions.store";
 import { Instance, types } from "mobx-state-tree";
 import { createContext, useContext } from "react";
 
@@ -17,6 +18,7 @@ const RootModel = types.model("Root", {
   roles: RolesModel,
   authData: AuthDataModel,
   globalLoader: GlobalLoaderModel,
+  permissions: PermissionsModel,
 });
 
 export const rootStore = RootModel.create({
@@ -34,6 +36,10 @@ export const rootStore = RootModel.create({
   },
   globalLoader: {
     loading: false,
+  },
+  permissions: {
+    permissions: [],
+    permissionsMap: {},
   },
 });
 
