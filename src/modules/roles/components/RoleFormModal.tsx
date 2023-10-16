@@ -7,6 +7,7 @@ import { RoleModelType } from "../store/roles.store";
 import toast from "react-hot-toast";
 import { observer } from "mobx-react-lite";
 import { useMst } from "@/common/store/root.store";
+import { PermissionModelType } from "@/modules/permissions/store/permissions.store";
 
 type RoleFormModalProps = {
   open: boolean;
@@ -37,7 +38,7 @@ export const RoleFormModal = observer(
     const store = useMst();
 
     const permissionsParsed = useMemo(() => {
-      return store.permissions.permissions.map((item) => ({
+      return store.permissions.permissions.map((item: PermissionModelType) => ({
         label: item.name,
         value: item.code,
       }));
@@ -101,6 +102,8 @@ export const RoleFormModal = observer(
     };
 
     const onFormSubmit = async (values: PostRoleParams) => {
+      setSubmitLoading(true);
+
       if (editMode) updateRole(values);
       else createRole(values);
     };
@@ -114,10 +117,6 @@ export const RoleFormModal = observer(
       onModalClose();
     };
 
-    const onModalOk = () => {
-      setSubmitLoading(true);
-      form.submit();
-    };
     return (
       <>
         <Modal
@@ -126,25 +125,14 @@ export const RoleFormModal = observer(
           }
           open={open}
           onCancel={onModalCancel}
-          footer={[
-            <Button key="back" onClick={onModalCancel}>
-              Cancel
-            </Button>,
-            <Button
-              key="submit"
-              type="primary"
-              loading={submitLoading}
-              onClick={onModalOk}
-            >
-              Save
-            </Button>,
-          ]}
+          footer={[]}
         >
           <Form
             className="mt-5"
             form={form}
             name={editMode ? "editRole" : "createRole"}
             labelCol={{ span: 5 }}
+            wrapperCol={{ span: 18 }}
             initialValues={initialValues}
             onFinish={onFormSubmit}
             onFinishFailed={onFormSubmitFailed}
@@ -233,6 +221,16 @@ export const RoleFormModal = observer(
                 </>
               )}
             </Form.List>
+            <Form.Item wrapperCol={{ offset: 20 }} style={{ marginBottom: 0 }}>
+              <Button
+                key="submit"
+                type="primary"
+                htmlType="submit"
+                loading={submitLoading}
+              >
+                Save
+              </Button>
+            </Form.Item>
           </Form>
         </Modal>
       </>
