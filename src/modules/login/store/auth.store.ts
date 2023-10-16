@@ -29,4 +29,9 @@ export const AuthDataModel = types
     get getMyPermissions() {
       return self.me?.role?.permissions || [];
     },
+    checkPermission(permissionKey: string) {
+      if (!self.me?.role?.permissions) return false;
+
+      return self.me?.role?.permissions.includes(permissionKey);
+    },
   }));

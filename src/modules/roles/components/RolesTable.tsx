@@ -12,6 +12,8 @@ import RolesService from "../services/roles.service";
 import toast from "react-hot-toast";
 import { useMst } from "@/common/store/root.store";
 import { observer } from "mobx-react-lite";
+import { RolesPermissions } from "../roles.const";
+import { PermissionProtected } from "@/common/components/PermissionProtected";
 
 type Props = {
   data: RoleModelType[];
@@ -24,7 +26,8 @@ const { confirm } = Modal;
 
 export const RolesTable = observer(
   ({ data, limit, page, totalDocs }: Props) => {
-    const { permissions: permissionsStore } = useMst();
+    const store = useMst();
+    const { permissions: permissionsStore } = store;
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [editModalData, setEditModalData] = useState<RoleModelType | null>(
       null,
@@ -98,17 +101,21 @@ export const RolesTable = observer(
         width: 100,
         render: (_, item) => (
           <>
-            <Button
-              shape="circle"
-              icon={<EditOutlined />}
-              onClick={() => onEditClick(item)}
-            />
-            <Button
-              shape="circle"
-              icon={<DeleteOutlined />}
-              className="ml-1"
-              onClick={() => onDeleteClick(item)}
-            />
+            <PermissionProtected permissionKey={RolesPermissions.UPDATE_ROLE}>
+              <Button
+                shape="circle"
+                icon={<EditOutlined />}
+                onClick={() => onEditClick(item)}
+              />
+            </PermissionProtected>
+            <PermissionProtected permissionKey={RolesPermissions.DELETE_ROLE}>
+              <Button
+                shape="circle"
+                icon={<DeleteOutlined />}
+                className="ml-1"
+                onClick={() => onDeleteClick(item)}
+              />
+            </PermissionProtected>
           </>
         ),
       },

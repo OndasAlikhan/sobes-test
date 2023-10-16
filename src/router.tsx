@@ -12,12 +12,14 @@ import AuthService from "./modules/login/services/auth.service";
 import { clearLocalStorage } from "./common/utils/authUtils";
 import PermissionsService from "./modules/permissions/services/permissions.service";
 import { RouteProtected } from "./common/components/RouteProtected";
+import { RolesPermissions } from "./modules/roles/roles.const";
+import { AdminUsersPermissions } from "./modules/admin-users/admin-users.const";
 
 const authorizationPages = ["/login"];
 
 const PageToPermissionMap: Record<string, string> = {
-  RolesPage: "GET_ROLES",
-  AdminUsersPage: "GET_ADMIN_USER",
+  RolesPage: RolesPermissions.GET_ROLES,
+  AdminUsersPage: AdminUsersPermissions.GET_ADMIN_USERS,
 };
 
 const authorizationGuard = async (request: Request) => {

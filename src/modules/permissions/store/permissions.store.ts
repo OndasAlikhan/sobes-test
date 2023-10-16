@@ -5,6 +5,7 @@ export const PermissionModel = types.model("PermissionsModel", {
   code: types.string,
 });
 
+// Permissions dictionary
 export const PermissionsModel = types
   .model("PermissionModel", {
     permissions: types.array(PermissionModel),
