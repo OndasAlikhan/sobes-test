@@ -23,7 +23,7 @@ export default {
       rootStore.roles.setRoles(result.data as RolesDataModelType);
       return { result: result.data, err: null };
     } catch (err) {
-      console.log("roles.service fetchRoles() error", err);
+      console.error("roles.service fetchRoles() error", err);
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,
@@ -42,7 +42,7 @@ export default {
 
       return { result: result.data, err: null };
     } catch (err) {
-      console.log("roles.service postRole() error", err);
+      console.error("roles.service postRole() error", err);
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,
@@ -61,7 +61,7 @@ export default {
 
       return { result: result.data, err: null };
     } catch (err) {
-      console.log("roles.service postRole() error", err);
+      console.error("roles.service postRole() error", err);
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,
@@ -80,7 +80,7 @@ export default {
 
       return { result: result.data, err: null };
     } catch (err) {
-      console.log("roles.service postRole() error", err);
+      console.error("roles.service postRole() error", err);
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,

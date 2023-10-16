@@ -74,16 +74,11 @@ const authorizationGuard = async (request: Request) => {
 };
 
 const RouteProtected = ({ children, permissionKey }: any) => {
-  console.log(
-    "-- calling RouteProtected rootStore.authData.me",
-    rootStore.authData.me,
-  );
   if (!rootStore.authData.me) {
     return <Navigate to="/" replace />;
   }
   const permitted =
     rootStore.authData.me.role.permissions.includes(permissionKey);
-  console.log("-- calling RouteProtected permitted", permitted);
 
   if (!permitted) {
     toast.error("You don't have right access");
@@ -97,7 +92,6 @@ export const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     loader: async ({ request }) => {
-      console.log("calling / loader");
       return await authorizationGuard(request);
     },
     errorElement: <ErrorBoundary />,
@@ -105,18 +99,10 @@ export const router = createBrowserRouter([
       {
         // index: true,
         element: <MainLayout />,
-        loader: () => {
-          console.log("calling MainLayout loader");
-          return null;
-        },
         children: [
           {
             index: true,
             element: <MainPage />,
-            loader: () => {
-              console.log("calling MainPage loader");
-              return null;
-            },
           },
           {
             path: "/roles",
@@ -130,20 +116,12 @@ export const router = createBrowserRouter([
           {
             path: "/admin-users",
             element: <AdminUsersPage />,
-            loader: () => {
-              console.log("calling AdminUserPage loader");
-              return null;
-            },
           },
         ],
       },
       {
         path: "/login",
         element: <LoginPage />,
-        loader: () => {
-          console.log("calling LoginPage loader");
-          return null;
-        },
       },
     ],
   },

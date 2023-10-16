@@ -24,7 +24,7 @@ export default {
       await PermissionsService.fetchPermissions();
       return { result, err: null };
     } catch (err) {
-      console.log("auth.service login() error");
+      console.error("auth.service login() error");
       const error = err as AxiosError<ErrorData>;
       return {
         result: null,

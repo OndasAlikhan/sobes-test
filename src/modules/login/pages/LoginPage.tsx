@@ -25,7 +25,6 @@ export const LoginPage = () => {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
     toast.error(errorInfo);
   };
 
