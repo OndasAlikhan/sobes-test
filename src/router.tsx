@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 import { LoginPage } from "@/modules/login/pages/LoginPage";
 
 import { Layout } from "@/common/layouts/Layout";
@@ -8,11 +8,10 @@ import { ErrorBoundary } from "./common/pages/ErrorBoundary";
 import { RolesPage } from "./modules/roles/pages/RolesPage";
 import { AdminUsersPage } from "./modules/admin-users/pages/AdminUsersPage";
 import { rolesPageLoader } from "./modules/roles/pages/rolesPageLoader";
-import { rootStore } from "./common/store/root.store";
 import AuthService from "./modules/login/services/auth.service";
 import { clearLocalStorage } from "./common/utils/authUtils";
-import toast from "react-hot-toast";
 import PermissionsService from "./modules/permissions/services/permissions.service";
+import { RouteProtected } from "./common/components/RouteProtected";
 
 const authorizationPages = ["/login"];
 
@@ -71,20 +70,6 @@ const authorizationGuard = async (request: Request) => {
     // we have a token and it's valid - do nothing
     return null;
   }
-};
-
-const RouteProtected = ({ children, permissionKey }: any) => {
-  if (!rootStore.authData.me) {
-    return <Navigate to="/" replace />;
-  }
-  const permitted =
-    rootStore.authData.me.role.permissions.includes(permissionKey);
-
-  if (!permitted) {
-    toast.error("You don't have right access");
-    return <Navigate to="/" replace />;
-  }
-  return children;
 };
 
 export const router = createBrowserRouter([
