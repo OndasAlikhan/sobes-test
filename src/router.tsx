@@ -16,7 +16,7 @@ import PermissionsService from "./modules/permissions/services/permissions.servi
 
 const authorizationPages = ["/login"];
 
-export const PageToPermissionMap: Record<string, string> = {
+const PageToPermissionMap: Record<string, string> = {
   RolesPage: "GET_ROLES",
   AdminUsersPage: "GET_ADMIN_USER",
 };
