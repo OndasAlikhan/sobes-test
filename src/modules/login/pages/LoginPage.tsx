@@ -2,6 +2,7 @@ import authService, {
   LoginServiceParams,
 } from "@/modules/login/services/auth.service";
 import { Button, Card, Form, Input } from "antd";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -13,11 +14,15 @@ type FieldType = {
 export const LoginPage = () => {
   const navigate = useNavigate();
 
+  const [submitButtonLoading, setSubmitButtonLoading] = useState(false);
+
   const onFinish = async (values: LoginServiceParams) => {
+    setSubmitButtonLoading(true);
     const { err } = await authService.login(values);
 
     // handle error
     if (err) {
+      setSubmitButtonLoading(false);
       toast.error(err.join(" "));
       return;
     }
@@ -58,7 +63,11 @@ export const LoginPage = () => {
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={submitButtonLoading}
+            >
               Submit
             </Button>
           </Form.Item>
